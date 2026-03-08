@@ -1,0 +1,28 @@
+1-Var:
+: Var can be used in Constructor,Method and init block
+:Var can not be used in Constructor/Method parameters or static/class vairables
+:Lambda where the parameter type can be inferred
+:A Var is always initialized on the same statement where it is declared
+e.g var x=4
+:the value of Var can change but the type can not
+var x=20
+x=50  //allowed
+x="abc" //not allowed
+
+:Var can not simply initialized to null; cast the null to a type first
+var x=null  /not allowed
+:var is not allowed in multi variable declarations
+:Var is resered name but not a reserved word
+  var var=9  //ok
+:identifiiers can be called var but type names e.g. classes interfaces, enums
+
+2- Private Method
+:Introduce in java 9
+:private methods can be both static and non-static
+:as this is private method these are accessible within the interface
+:As with classes you can not access a non-static interface method from a static method
+
+Advantage
+:reduce code duplication
+:improve code encapsulation
+

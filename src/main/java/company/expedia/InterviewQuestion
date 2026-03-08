@@ -1,0 +1,127 @@
+1-Max Consecutive Ones III
+2-Given a stack of integers, sort it in ascending order using another temporary stack.
+3-Given a matrix, row wise sorted and column wise sorted. Given a target element search it in the matrix. If the element is found in matrix, return its indices or return Not Found. Return should be string type.
+4-Given a binary tree. Find the maximum height of the binary tree.
+5- Design in-memory file system
+6-Puzzle -> There are 3 Jars. One jar contains only orange, one jar contains only apple and the remaining jar contains mix of apple and orange. The mix need not be half half. All the jars given are mislabelled. Label the jars properly. Find the minimum no of fruits you need to take out to label all the jars correctly.
+7-Caesar Cipher Encryption
+8-Regular Expression Matching
+Puzzle -> Initially i was confused. Then the interviewer told me that all the jars are mislablled. For example
+Jar 1 -> Apple
+Jar 2 -> Mix of Orange/Apple
+Jar 3 -> Orange
+So when he says mislablled, it means no way i can say that jar 1 can be apple. According to him, jar 1 can never be apple because it says all are mislabled. Initially the answer i gave was wrong. But the interviewer didnt say that. i asked is that ok, then he said the answer given by me is wrong. So again i gave the answer which was correct but he seemed to be not that impressed.
+Solution -> Keep in mind all are mislablled. Jar 2 cannot be mix of orange and apple. Hence take one fruit out of it. Lets say the fruit is orange. Hence jar 2 is definitely orange. Now if jar 2 is orange, that means jar 3 is definitely not orange it can be mix or only apple. Now jar 1 also cannot be only apple as its mislabelled. Hence i can say that jar 3 can be apple and jar 1 can be mix. Hence minimum no of fruits required is 1.
+
+Question 1: Efficient Teams
+There are n candidates and a total of n/2 teams to be formed. Each candidate has a skill level denoted by skill[i]. Make teams so that the total skill is the same and return the sum of efficiencies
+If there is no way to create the teams that satisfy these conditions, return -1.
+Efficiency is calculated like this:
+
+Efficiency of team [1, 3] = 1* 3 = 3
+Efficiency of team [2, 2] = 2 * 2 =  4
+Example:
+The skills of the candidates are skill = [1, 2, 3, 2] so they can be paired as [1, 3], [2, 2].
+
+Efficiency:[ 1, 3] = 1* 3 = 3
+Efficiency: [2, 2] = 2 * 2 = 4
+
+Should return the sum of efficiencies: 3 + 4 = 7
+
+My approach:
+
+sumOfEachPair = sum(all skills) / (number of candidates) * 2
+Create a hashmap to store differences
+Create accumulator to keep track of sum of efficiencies
+Iterate through each candidate’s skill:
+if the skill is larger than the sum of each pair, return -1 early
+if the current skill is in the hashmap
+add to accumulator: (skill * (sumOfEachPair - skill)
+decrement key value of key = (sumOfEachPair - skill) by 1 and delete the key value pair if it equals 0
+if the current skill is not in the hashmap:
+create a key value pair with key = (sumOfEachPair - skill) and set the value to 1
+return the accumulator variable if hasmap is empty, other wise return -1
+This passed all the test cases available.
+
+Time: O(n) , one pass
+Space: O(n) , hashmap to store all the differences
+
+Question 2: Binary Game
+A binary string is a string consisting only of digits 0 and 1.
+
+A binary string is said to be good if:
+
+The digit 1 only appears in groups of size one group, if it appears at all. For example, for one group = 2, "011110110" satisfies this condition while "01101010" does not.
+
+The digit 0 only appears in groups of size zero_group, if it appears at all. For example, for zero group = 3, "11" satisfies this condition while "101010" does not. For example, for one group = 2, zero group = 1, the strings "011", "000" are good while the strings "001" and "111" are not.
+
+Given four integers:
+
+min_length: min length of a valid string
+max_length: max length of a valid string
+one_group: group size of digit 1
+zero_group: group size of digit 0
+Example:
+Consider min length = 1, max length = 3, one group = 2 and zero group = 1.
+
+The good strings satisfying the criteria are: (“0”, “00”, "11", "011", "110", "000"]. Hence, the answer is 6.
+
+Thoughts:
+
+I couldn't really figure this one out. After some thought I tried to think of it like 518. Coin Change where the coins are the one_group and zero_group and we try and get the sum of each iteration between min_length and max_length but I don't think it's the right way to do it. My dynamic programming skills aren't very strong so I welcome anyone else's thoughts on a possible solution.
+
+Hope this helps!
+
+
+
+A professor in the Computer Science department of HackerLand College wants to generate an array. Given an array of integers of length and two integers/ and find another array, br, such that:
+
+l<=brr[i]<=r
+brr[i] - arr[i] < brr[i+1] - arr[i+1]
+brr[i] <= brr[i+1]
+Among all such arrays, return the lexicographically smallest one if there in not an array that satisfies the conditions then return an array with the single element -1.
+
+vector<int> getSmallestArray(vector<int> arr, int l, int r){
+    int lastDiff = INT_MIN, currDiff = 0;
+    res[0] = l;
+    for(int i=0;i<arr.size();i++){
+        lastDiff = res[i-1] - arr[i-1];
+        currDiff = lastDiff+1;
+        int curr = currDiff + arr[i];
+        curr = max(curr, res[i-1]);
+        res[i] = curr;
+        if(curr>r)  return {-1};
+    }
+    return res;
+}
+A binary string is a string consisting only of digits 0 and 1. A binary string is said to be good if:
+
+The digit 1 only appears in groups of size one group, if it appears at all. For example, for one group = 2, "011110110" satisfies this condition while "01101010" does not.
+The digit 0 only appears in groups of size zero_group, if it appears at all. For example, for zero group = 3, "11" satisfies this condition while "101010" does not. For example, for one group = 2, zero group = 1, the strings "011", "000" are good while the strings "001" and "111" are not.
+Given four integers:
+
+min_length: min length of a valid string
+max_length: max length of a valid string
+one_group: group size of digit 1
+zero_group: group size of digit 0
+min length = 1, max length = 3, one group = 2 and zero group = 1. The good strings satisfying the criteria are: (“0”, “00”, "11", "011", "110", "000"]. Hence, the result is 6.
+
+int countGoodStrings(int min_length, int max_length, int one_group, int zero_group){
+    vector<long long int> dp(max_length+1, 0);
+    long long int res = 0;
+    dp[0] = 1;
+    for(int i=1;i<= max_length;i++){
+        if(i>=zero_group){
+            dp[i] += dp[i-zero_group];
+        }
+        if(i>=one_group){
+            dp[i] += dp[i-one_group];
+        }
+        dp[i] %= (1000000007);
+    }
+    for(int i=min_length; i<= max_length; i++){
+        res += dp[i] % (1000000007);
+    }
+
+    return (int)(res % (1000000007));
+}

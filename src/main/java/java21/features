@@ -1,0 +1,89 @@
+Topics:
+1-Unnamed classes and instance main method
+2-Record pattern
+3-Switch Pattern matching
+4-Sequenced Collections
+
+
+#Instance Method
+-No need for static ,public or String[] parameter
+
+class A{
+  void main(){
+  System.out.println("instance method");
+  }
+}
+-if you have both traditional public static void main(String[]args) and the instance main()
+the traditional version take precedence
+
+
+#Unnamed classes:
+void main(){
+}
+1-extends from Object class and cannot implement an interface
+2-are final and reside in the unnamed package
+3-their .class name on the hard disk depends on the filename
+for exp:
+if the above code is in HellowWorld.java , HelloWorld.class is created on hardDisk
+4- are exactly like normal classes except that an unnamed class has only one constructor
+ -the default no-args constructor provided by compiler
+5- it is an error to explicitly  code a constructor even a no-arg constructor
+6- the this key word is still valid
+7 as code can not refer to an unnamed class by name,
+instances of an unnamed class can not be constructed directly
+8- there for such classes are useful for standalone program or as an entry point to a program
+9-as a result ,unnamed classes must have a main method
+
+
+
+
+#Type Pattern
+-in Java 16 instanceof was extended to take a type pattern and perform matching.
+this simplified the instaceof-cast idiom,resulting in more concise and less error-pron
+code
+#before java 16
+if(obj instanceof String){
+String s=(String)obj
+}
+#After java 16
+if(obj instanceof String S){
+  sop(s.toUpperCase())
+}
+
+as their is no casting with type patterns, this style is more declarative
+
+
+
+#Records
+
+1-Records are special type of class that save lot of boilerplate code. they are considered "data carriers" adn are immutable
+2- Records are specified using a record declaration where you specify the "components" of the record.
+3-These components become "Final" instace variable and accessor methods having the same names as the components are provided automatically
+4- In addition, a constructor,toString(),equals() and hashCode() methods are also generated
+public record Dog(String name,Integer age){}
+-Code that receives an instance of record class typically
+extracts the data(components),using the build in component accessors Methods
+-A "Record Pattern" consists of a type ,a component pattern list(which may be empty) and an optional identifier
+
+#A record pattern does 2 things for us
+
+1-checks if an object passes the instanceof test
+2-disaggregates the record instance into its component
+
+Record pattern support nesting
+
+public record Person(String name,Integer age)
+//Before java 21
+if( obj instanceof Person p){
+  String name=p.name();
+  int age=p.age();
+  sop(name+""+age)
+}
+#After java 21
+//Person(Strings,Integer age) is a "record pattern" which does 2 things
+1-Test wheather the objects is of type Person(as usual)
+2-Extracts the records components by invoking the accessor Methods on our behalf
+
+if(obj instanceof Person(String s,Integer age){
+   System.out.println(s+" "+age)
+}

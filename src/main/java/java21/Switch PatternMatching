@@ -1,0 +1,18 @@
+#pattern matching for switch
+
+the selection of which branch to execute is separated from
+what to do when we execute that branch
+
+changes included
+1-case labels can include patterns and null
+2-case labels can include optional when clauses("guard")
+3-selection expression type broadened
+
+from:
+  -integral primitive types(excluding long), their corresponding wrapper
+  types,String and enums
+To:
+ -integral primitive types(excluding long) and any reference type
+
+ #Enum constant case labels improved
+  -qualified enum constants now allowed

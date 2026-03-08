@@ -1,0 +1,27 @@
+1-Sealed Classes
+:your class will be available for inheritance only to certain classes
+:Sealed classes enable us to control the scope of inheritance by enabling us
+to specify a classes subtype
+
+2-Records
+:Records are special type of class that help avoid boilerplate code .they are considered "data carriers"
+:Records are immutable and are final by default
+:you can not extend your custom record because records already (implicitly) extend from the Record class.
+this is similar to ENUM(which implicitly extend from Enum)
+:Records can have both static filed and static method
+:Records can have instance method
+:Records can not have instance fields. All the instance field listed as "Components" in the record declaration.
+:Records can implement interfaces
+:you can override all the default implementations. this include the canonical constructor(perhaps for data validation)
+
+3-Switch Expression
+:its Allows -> for return value
+4-Text Blocks
+:A text block is a string object as a result ,shares the same properties as string objects(immutable and interned)
+:you can call String methods on a text block
+:A text block begins with three double quote characters followed by newline I.E """
+"text blocks can not be put on one line"
+"the text of a text block can not follow the"""
+String tbname="""
+sean kenndsn";
+:In String literals embebbed quotes must be escaped.this is not the case with text blocks

@@ -1,0 +1,6 @@
+1-Annotations Via Metadata, enable us to add value to our code.
+2-We can annotate(assign metadata) to classes,methods variables
+3-Though optional, when used they must be used correctly
+4-Annotations operate much like interfaces,in fact their origins are in interfaces, theirs elements look like abstract methods
+5-Annotations names are case sensitive ,however, it is common practice to start the name with an uppercase letter.
+6-like interfaces,annotations can be applied to unrelated classes

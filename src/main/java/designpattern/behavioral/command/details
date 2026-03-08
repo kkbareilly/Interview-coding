@@ -1,0 +1,5 @@
+1. Allows you to set aside a list of commands for later use
+2.A class is a great place to store procedures you want to be executed
+3.you can store multiple commands in a class to use over and over
+4.you can implement undo procedures for past commands
+5.Negative you can create many small classes that store lists of commands

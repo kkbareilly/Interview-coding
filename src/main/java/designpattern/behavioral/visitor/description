@@ -1,0 +1,5 @@
+Allows you to add methods to classes of different type without much altering to those classes
+
+you can make completely different methods depending on class used
+
+Allow to define external classes that can extend other classes without mejorily editing them

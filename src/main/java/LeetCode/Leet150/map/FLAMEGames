@@ -1,0 +1,36 @@
+class Flames
+{
+public static void main(String ss[])throws IOException
+{
+InputStreamReader isr =new InputStreamReader(System.in);
+BufferedReader br =new BufferedReader(isr);
+System.out.println(“Enter your name(in Block letters)”);
+StringBuffer m =new StringBuffer(br.readLine());
+System.out.println(“Enter your name(in Block letters)”);
+StringBuffer n =new StringBuffer(br.readLine());
+String m1 =new String(m);
+String n1 =new String(n);
+int l1,l2,l,i,j;
+l1= m1.length();
+l2= n1.length();
+l= l1+ l2;
+for(i=0; i<l1; i++)
+{
+for(j=0; j1; x–)
+{
+rem= l%x;
+if(rem==0)
+fl.delete(x-1,x);
+else
+fl.delete(rem-1,rem);
+}
+System.out.println(fl);
+System.out.println(“Where F is Friendship”);
+System.out.println(“Where L is Love”);
+System.out.println(“Where A is Adore”);
+System.out.println(“Where M is Marriage”);
+System.out.println(“Where E is Enemy”);
+System.out.println(“Where S is Sister”);
+
+}
+}

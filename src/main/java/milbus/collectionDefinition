@@ -1,0 +1,24 @@
+FieldType fieldType1 = FieldType.newBuilder()
+        .withName("book_id")
+        .withDataType(DataType.Int64)
+        .withPrimaryKey(true)
+        .withAutoID(false)
+        .build();
+FieldType fieldType2 = FieldType.newBuilder()
+        .withName("word_count")
+        .withDataType(DataType.Int64)
+        .build();
+FieldType fieldType3 = FieldType.newBuilder()
+        .withName("book_intro")
+        .withDataType(DataType.FloatVector)
+        .withDimension(2)
+        .build();
+CreateCollectionParam createCollectionReq = CreateCollectionParam.newBuilder()
+        .withCollectionName("book")
+        .withDescription("Test book search")
+        .withShardsNum(2)
+        .addFieldType(fieldType1)
+        .addFieldType(fieldType2)
+        .addFieldType(fieldType3)
+        .withEnableDynamicField(true)
+        .build();

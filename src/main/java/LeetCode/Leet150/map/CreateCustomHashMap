@@ -1,0 +1,197 @@
+Solution 1: Traditional Hash-Table Implementation - Using Array of LinkedList
+
+Intuition:
+
+The general implementation of HashMap uses bucket which is basically a chain of linked lists and each node containing <key, value> pair.
+So if we have duplicate nodes, that doesn't matter - it will still replicate each key with it's value in linked list node.
+When we insert the pair (10, 20) and then (10, 30), there is technically no collision involved. We are just replacing the old value with the new value for a given key 10, since in both cases, 10 is equal to 10 and also the hash code for 10 is always 10.
+Collision happens when multiple keys hash to the same bucket. In that case, we need to make sure that we can distinguish between those keys. Chaining collision resolution is one of those techniques which is used for this.
+In JDK 8, HashMap has been tweaked so that if keys can be compared for ordering, then any densely-populated bucket is implemented as a tree, so that even if there are lots of entries with the same hash-code, the complexity is O(log N).
+Time complexity: O(1) average and O(N) worst case - for all get(), put() and remove() methods.
+Space complexity: O(N) - where N is the number of entries in HashMap
+
+class MyHashMap {
+    ListNode[] nodes = new ListNode[10000];
+
+    public int get(int key) {
+        int index = getIndex(key);
+        ListNode prev = findElement(index, key);
+        return prev.next == null ? -1 : prev.next.val;
+    }
+
+    public void put(int key, int value) {
+        int index = getIndex(key);
+        ListNode prev = findElement(index, key);
+
+        if (prev.next == null) {
+            prev.next = new ListNode(key, value);
+        } else {
+            prev.next.val = value;
+        }
+    }
+
+    public void remove(int key) {
+        int index = getIndex(key);
+        ListNode prev = findElement(index, key);
+
+        if (prev.next != null) {
+            prev.next = prev.next.next;
+        }
+    }
+
+    private int getIndex(int key) {
+        return Integer.hashCode(key) % nodes.length;
+    }
+
+    private ListNode findElement(int index, int key) {
+        if (nodes[index] == null) {
+            return nodes[index] = new ListNode(-1, -1);
+        }
+        ListNode prev = nodes[index];
+
+        while (prev.next != null && prev.next.key != key) {
+            prev = prev.next;
+        }
+        return prev;
+    }
+
+    private static class ListNode {
+        int key, val;
+        ListNode next;
+
+        ListNode(int key, int val) {
+            this.key = key;
+            this.val = val;
+        }
+    }
+}
+Solution 2: Using Large Sized Array
+
+Time complexity: O(1) - for all get(), put() and remove() methods.
+Space complexity: O(N) - where N is the maximum possible value for the key.
+
+class MyHashMap {
+    int[] map;
+
+    public MyHashMap() {
+        map = new int[1000001];
+        Arrays.fill(map, -1);
+    }
+
+    public int get(int key) {
+        return map[key];
+    }
+
+    public void put(int key, int value) {
+        map[key] = value;
+    }
+
+    public void remove(int key) {
+        map[key] = -1;
+    }
+}
+Solution 3: Using Array of LinkedList and Pair Class
+
+Intuition:
+
+HashMap is a common data structure that is implemented in various forms in different programming languages, e.g. dict in Python and HashMap in Java. The most distinguish characteristic about hashmap is that it provides a fast access to a value that is associated with a given key.
+There are two main issues that we should tackle, in order to design an efficient hashmap data structure. Depending on how we deal with each of these two issues, we could have various implementation of hashmap data structure.
+Hash Function Design: The purpose of hash function is to map a key value to an address in the storage space, similarly to the system that we assign a postcode to each mail address. For a good hash function, it should map different keys evenly across the storage space, so that we don't end up with the case that the majority of the keys are concentrated in a few spaces.
+Collision Handling: The hash function reduces the vast key space into a limited address space. As a result, there could be the case where two different keys are mapped to the same address, which is what we call collision. Since the collision is inevitable, it is important that we have a strategy to handle the collision.
+Here, we could adopt the modulo operator as the hash function, since the (key, value) is of integer type. In addition, in order to minimize the potential collisions, it is advisable to use a prime number as the base of modulo, e.g. 2069.
+We organize the storage space as an array where each element is indexed with the output value of the hash function.
+In case of a collision, where two different keys are mapped to the same address, we use a bucket to hold all the values. The bucket is a container that hold all the values that are assigned by the hash function. We could use either a LinkedList or an Array to implement the bucket data structure. Here, we use LinkedList to implement the bucket in Java.
+Algorithm:
+
+For each of the methods in HashMap data structure, namely get(), put() and remove(), we need to find the value that is stored in HashMap, given the key. This can be done in two steps:
+For a given (key, value), first we apply the hash function to generate a hashKey, which corresponds to the address in our main storage. With this hashKey, we would find the bucket where the value should be stored.
+Now that we found the bucket, we simply iterate through the bucket to check if the desired (key, value) pair does exist.
+image
+
+Time Complexity:
+
+For each of the methods, the time complexity is O(N / K), where N is the number of all possible keys and K is the number of predefined buckets in the HashMap, which is 2069 in our case.
+In the ideal case, the keys are evenly distributed in all buckets. As a result, on average, we could consider the size of the bucket is N / K
+Since in the worst case, we need to iterate through a bucket to find the desire value, the time complexity of each method is O(N / K).
+Space Complexity: O(K + M), where K is the number of predefined buckets in the HashMap and M is the number of unique keys that have been inserted into the HashMap.
+
+class MyHashMap {
+    int keySpace;
+    List<Bucket> hashMap;
+
+    // Initialize data structure here
+    public MyHashMap() {
+        this.keySpace = 2069;
+        this.hashMap = new ArrayList<>();
+        for (int i = 0; i < this.keySpace; i++) {
+            this.hashMap.add(new Bucket());
+        }
+    }
+
+    // Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key
+    public int get(int key) {
+        int hashKey = key % this.keySpace;
+        return this.hashMap.get(hashKey).get(key);
+    }
+
+    // value will always be positive
+    public void put(int key, int value) {
+        int hashKey = key % this.keySpace;
+        this.hashMap.get(hashKey).update(key, value);
+    }
+
+    // Removes the mapping of the specified value key, if this map contains a mapping for the key
+    public void remove(int key) {
+        int hashKey = key % this.keySpace;
+        this.hashMap.get(hashKey).remove(key);
+    }
+}
+
+class Bucket {
+    List<Pair<Integer, Integer>> bucket;
+
+    public Bucket() {
+        this.bucket = new LinkedList<>();
+    }
+
+    public Integer get(Integer key) {
+        for (Pair<Integer, Integer> pair : this.bucket) {
+            if (pair.first.equals(key)) {
+                return pair.second;
+            }
+        }
+        return -1;
+    }
+
+    public void update(Integer key, Integer value) {
+        boolean found = false;
+        for (Pair<Integer, Integer> pair : this.bucket) {
+            if (pair.first.equals(key)) {
+                pair.second = value;
+                found = true;
+            }
+        }
+        if (!found) {
+            this.bucket.add(new Pair<>(key, value));
+        }
+    }
+
+    public void remove(Integer key) {
+        for (Pair<Integer, Integer> pair : this.bucket) {
+            if (pair.first.equals(key)) {
+                this.bucket.remove(pair);
+                break;
+            }
+        }
+    }
+}
+
+class Pair<U, V> {
+    public U first;
+    public V second;
+
+    public Pair(U first, V second) {
+        this.first = first;
+        this.second = second;
+    }
+}
